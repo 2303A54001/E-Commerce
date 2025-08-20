@@ -2,399 +2,207 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Modern E‑commerce • Wireless Headphones</title>
-  <meta name="description" content="Modern single‑page e‑commerce product display with details, gallery, features, and reviews." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futuristic E-Commerce</title>
   <style>
-    :root{
-      --bg:#0b0d10;/* dark slate */
-      --paper:#12161b;
-      --muted:#9aa4b2;
-      --text:#e8edf2;
-      --brand:#6ee7b7; /* mint */
-      --brand-strong:#34d399;
-      --accent:#60a5fa;/* sky */
-      --danger:#f87171;
-      --ring:0 0 0 3px rgba(110,231,183,.35);
-      --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.35);
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:linear-gradient(180deg,var(--bg),#0e1116 35%, #0a0c10 100%);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1e1e2f);
+      color: #f5f5f5;
+      line-height: 1.6;
     }
-    a{color:inherit; text-decoration:none}
-    .container{max-width:1200px; margin:0 auto; padding:24px}
 
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter:saturate(140%) blur(8px);
-      background:linear-gradient(180deg,rgba(18,22,27,.85),rgba(18,22,27,.6));
-      border-bottom:1px solid rgba(255,255,255,.06);
+    header {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    .nav{display:flex; align-items:center; gap:16px; justify-content:space-between}
-    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.3px}
-    .logo{width:36px; height:36px; display:grid; place-items:center; border-radius:12px; background:radial-gradient(120% 120% at 10% 10%,var(--brand),var(--accent)); box-shadow:0 6px 16px rgba(52,211,153,.35)}
-    .logo svg{filter:drop-shadow(0 3px 8px rgba(0,0,0,.5))}
-    .search{flex:1; max-width:520px; display:flex; align-items:center; gap:10px; background:var(--paper); border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:10px 12px}
-    .search input{flex:1; background:transparent; border:0; outline:none; color:var(--text)}
-    .actions{display:flex; align-items:center; gap:12px}
-    .btn{cursor:pointer; border:0; border-radius:14px; padding:10px 14px; background:var(--paper); color:var(--text); display:inline-flex; align-items:center; gap:8px; transition:transform .08s ease, box-shadow .2s ease, background .2s ease; border:1px solid rgba(255,255,255,.06)}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.primary{background:linear-gradient(180deg,var(--brand),var(--brand-strong)); color:#073b2b; font-weight:700; box-shadow:0 10px 24px rgba(52,211,153,.25)}
 
-    /* Grid */
-    .grid{display:grid; grid-template-columns:1.1fr 1fr; gap:28px; margin-top:28px}
-    @media (max-width: 960px){ .grid{grid-template-columns:1fr;}}
+    header h1 {
+      font-size: 2.5rem;
+      color: #00ffe0;
+      letter-spacing: 2px;
+    }
 
-    .card{background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); box-shadow:var(--shadow)}
-    .card.pad{padding:22px}
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
 
-    /* Gallery */
-    .gallery{display:grid; grid-template-columns:1fr; gap:14px}
-    .hero-img{aspect-ratio: 1 / 1; width:100%; border-radius:16px; object-fit:cover; background:#0f1318}
-    .thumbs{display:grid; grid-template-columns:repeat(4,1fr); gap:10px}
-    .thumbs img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:12px; cursor:pointer; opacity:.9; border:2px solid transparent}
-    .thumbs img.active{opacity:1; border-color:var(--brand)}
+    /* Product Section */
+    .product {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
 
-    /* Details */
-    .title{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
-    .title h1{margin:0 0 6px; font-size: clamp(22px, 3vw, 34px)}
-    .rating{display:flex; align-items:center; gap:10px; color:var(--muted)}
-    .stars{letter-spacing:.5px}
-    .price{font-size: clamp(22px, 3vw, 28px); font-weight:800; color:var(--brand)}
-    .strike{color:#7c8796; text-decoration:line-through; font-weight:600; margin-left:10px}
-    .muted{color:var(--muted)}
-    .row{display:flex; flex-wrap:wrap; gap:12px; align-items:center}
-    .kpi{display:flex; align-items:center; gap:8px; padding:8px 10px; background:var(--paper); border:1px solid rgba(255,255,255,.06); border-radius:12px}
+    .product img {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,255,224,0.4);
+      transition: transform 0.3s ease;
+    }
 
-    .option{display:flex; gap:8px}
-    .chip{padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:var(--paper); cursor:pointer}
-    .chip.active{border-color:var(--brand); box-shadow:var(--ring)}
+    .product img:hover {
+      transform: scale(1.05);
+    }
 
-    .qty{display:flex; align-items:center; gap:6px}
-    .qty button{width:36px; height:36px}
-    .qty input{width:56px; text-align:center; padding:8px; border:1px solid rgba(255,255,255,.08); background:var(--paper); color:var(--text); border-radius:10px}
+    .product-details h2 {
+      font-size: 2rem;
+      color: #fff;
+    }
 
-    .cta{display:flex; gap:12px; align-items:center; margin-top:12px}
+    .price {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      color: #00ffe0;
+    }
 
-    .benefits{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:14px}
-    @media (max-width: 600px){ .benefits{grid-template-columns:1fr;}}
-    .benefit{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:14px; background:var(--paper); border:1px solid rgba(255,255,255,.06)}
+    .features {
+      margin: 1rem 0;
+      list-style: none;
+    }
 
-    /* Tabs */
-    .tabs{display:flex; gap:6px; margin-top:18px}
-    .tab{padding:10px 14px; border-radius:12px; background:var(--paper); border:1px solid rgba(255,255,255,.06); cursor:pointer}
-    .tab.active{border-color:var(--brand); box-shadow:var(--ring)}
+    .features li {
+      margin: 0.5rem 0;
+      padding-left: 1.2rem;
+      position: relative;
+    }
 
-    .panel{margin-top:14px}
-    .features{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
-    @media (max-width: 600px){ .features{grid-template-columns:1fr;}}
-    .feature{padding:10px 12px; border-radius:12px; background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06)}
-    .specs{width:100%; border-collapse:collapse}
-    .specs th,.specs td{padding:10px 12px; border-bottom:1px dashed rgba(255,255,255,.08); text-align:left}
+    .features li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: #00ffe0;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      background: #00ffe0;
+      color: #000;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background: #00b3a4;
+      color: #fff;
+    }
 
     /* Reviews */
-    .reviews{display:grid; gap:14px}
-    .review{display:grid; gap:6px; padding:14px; border-radius:14px; background:var(--paper); border:1px solid rgba(255,255,255,.06)}
-    .review .name{font-weight:700}
-    .review .stars{font-size:15px}
+    .reviews {
+      margin-top: 4rem;
+    }
 
-    /* Footer */
-    footer{margin:40px 0 20px; color:var(--muted); text-align:center}
+    .reviews h3 {
+      font-size: 1.8rem;
+      color: #00ffe0;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
 
-    /* Toast */
-    .toast{position:fixed; right:16px; bottom:16px; padding:12px 14px; background:#0f1518; border:1px solid rgba(255,255,255,.08); border-radius:12px; box-shadow:var(--shadow); display:none}
+    .review-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .review {
+      background: rgba(255,255,255,0.05);
+      padding: 1.2rem;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,255,224,0.1);
+      transition: transform 0.3s;
+    }
+
+    .review:hover {
+      transform: translateY(-5px);
+    }
+
+    .review h4 {
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .stars {
+      color: gold;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      background: rgba(255,255,255,0.05);
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
   <header>
-    <div class="container nav">
-      <div class="brand" aria-label="Brand">
-        <div class="logo" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2l3.5 6.5L22 9l-5 4.9L18 22l-6-3.3L6 22l1-8.1L2 9l6.5-.5L12 2z" fill="white"/>
-          </svg>
-        </div>
-        <span>MintMart</span>
-      </div>
-      <label class="search" aria-label="Search">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.3-4.3" stroke="#9aa4b2" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="#9aa4b2" stroke-width="2"/></svg>
-        <input type="search" placeholder="Search products" />
-      </label>
-      <div class="actions">
-        <button class="btn" aria-label="Toggle theme" id="themeToggle">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3a9 9 0 009 9 9 9 0 11-9-9z" stroke="#9aa4b2" stroke-width="2"/></svg>
-          Theme
-        </button>
-        <button class="btn" aria-label="Cart">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h15l-1.5 9H8L6 4H2" stroke="#9aa4b2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Cart (0)
-        </button>
-      </div>
-    </div>
+    <h1>Futuristic E-Commerce</h1>
   </header>
 
-  <main class="container">
-    <div class="grid">
-      <!-- Gallery -->
-      <section class="card pad gallery" aria-label="Product gallery">
-        <img id="heroImg" class="hero-img" src="https://images.unsplash.com/photo-1518442253306-9e3f39c4861b?q=80&w=1200&auto=format&fit=crop" alt="Wireless headphones on a table"/>
-        <div class="thumbs" id="thumbs">
-          <img src="https://images.unsplash.com/photo-1518442253306-9e3f39c4861b?q=80&w=400&auto=format&fit=crop" alt="Front angle" class="active"/>
-          <img src="https://images.unsplash.com/photo-1519677100203-a0e668c92439?q=80&w=400&auto=format&fit=crop" alt="Folded view"/>
-          <img src="https://images.unsplash.com/photo-1519204925119-1d6a95f1df36?q=80&w=400&auto=format&fit=crop" alt="On-ear closeup"/>
-          <img src="https://images.unsplash.com/photo-1518441902110-657b97c2f2ff?q=80&w=400&auto=format&fit=crop" alt="Carrying case"/>
-        </div>
-      </section>
+  <div class="container">
+    <!-- Product Section -->
+    <section class="product">
+      <div>
+        <img src="https://images.unsplash.com/photo-1581291518857-4e27b48ff24e" alt="Product Image">
+      </div>
+      <div class="product-details">
+        <h2>HoloSmart Glasses</h2>
+        <p class="price">$299.99</p>
+        <p>Experience the future of augmented reality with our sleek, lightweight, and powerful smart glasses.</p>
+        <ul class="features">
+          <li>Ultra-HD AR Display</li>
+          <li>AI Voice Assistant Built-in</li>
+          <li>12hr Battery Life</li>
+          <li>5G & Bluetooth Connectivity</li>
+        </ul>
+        <button class="btn">Add to Cart</button>
+      </div>
+    </section>
 
-      <!-- Details -->
-      <section class="card pad" aria-label="Product details">
-        <div class="title">
-          <div>
-            <h1>Wireless Bluetooth Headphones Pro X</h1>
-            <div class="rating">
-              <span class="stars" aria-label="Average rating">★★★★★</span>
-              <span class="muted">4.8 • 1,284 reviews</span>
-            </div>
-          </div>
-          <div class="price" aria-label="Price">$99.99 <span class="strike" aria-label="Old price">$149.99</span></div>
-        </div>
-
-        <p class="muted" style="margin:8px 0 14px">Experience studio‑quality audio with hybrid ANC, ultra‑low latency, and 30‑hour battery life in a feather‑light frame.</p>
-
-        <div class="row">
-          <div class="kpi" title="Free shipping">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 7h12v8H3zM15 10h4l2 3v2h-6V10zM6 19a2 2 0 100-4 2 2 0 000 4zm10 0a2 2 0 100-4 2 2 0 000 4z" stroke="#9aa4b2" stroke-width="1.5"/></svg>
-            <span>Free express shipping</span>
-          </div>
-          <div class="kpi" title="Warranty">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 4v5c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V7l7-4z" stroke="#9aa4b2" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span>2‑year warranty</span>
-          </div>
-          <div class="kpi" title="Returns">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h11a5 5 0 010 10H7" stroke="#9aa4b2" stroke-width="1.5" stroke-linecap="round"/><path d="M7 11l-3 3 3 3" stroke="#9aa4b2" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <span>30‑day free returns</span>
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:14px">
-          <div>
-            <div class="muted" style="margin-bottom:8px">Color</div>
-            <div class="option" id="colorOptions" role="listbox" aria-label="Choose color">
-              <button class="chip active" data-value="Black">Black</button>
-              <button class="chip" data-value="White">White</button>
-              <button class="chip" data-value="Navy">Navy</button>
-            </div>
-          </div>
-          <div>
-            <div class="muted" style="margin-bottom:8px">Style</div>
-            <div class="option" id="styleOptions" role="listbox" aria-label="Choose style">
-              <button class="chip active" data-value="Standard">Standard</button>
-              <button class="chip" data-value="ANC">ANC</button>
-              <button class="chip" data-value="Gaming">Gaming</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="cta">
-          <div class="qty" aria-label="Quantity selector">
-            <button class="btn" id="decQty" aria-label="Decrease quantity">−</button>
-            <input id="qty" type="number" min="1" value="1" inputmode="numeric" aria-label="Quantity"/>
-            <button class="btn" id="incQty" aria-label="Increase quantity">+</button>
-          </div>
-          <button id="addToCart" class="btn primary" style="padding:12px 18px; font-size:16px">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 6h15l-1.5 9H8L6 4H2" stroke="#073b2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Add to cart
-          </button>
-          <button class="btn" aria-label="Wishlist">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7-4.4-9.5-7.4C.9 11.8 1 8.1 4 6.6c2-1 4.1-.3 5.3 1.1C10.9 6.3 13 5.6 15 6.6c3 1.5 3.1 5.2 1.5 7C19 16.6 12 21 12 21z" stroke="#9aa4b2" stroke-width="1.5"/></svg>
-            Save
-          </button>
-        </div>
-
-        <div class="benefits">
-          <div class="benefit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="#34d399" stroke-width="1.5"/><path d="M8 12l2.5 2.5L16 9" stroke="#34d399" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <div>
-              <div style="font-weight:700">Secure checkout</div>
-              <div class="muted">SSL encrypted payments</div>
-            </div>
-          </div>
-          <div class="benefit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12a9 9 0 1018 0A9 9 0 103 12z" stroke="#60a5fa" stroke-width="1.5"/><path d="M12 7v6l4 2" stroke="#60a5fa" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <div>
-              <div style="font-weight:700">Fast delivery</div>
-              <div class="muted">1–3 business days</div>
-            </div>
-          </div>
-          <div class="benefit">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 12l4 4 8-8" stroke="#6ee7b7" stroke-width="1.5" stroke-linecap="round"/></svg>
-            <div>
-              <div style="font-weight:700">Quality assured</div>
-              <div class="muted">Tested & certified</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tabs: Features / Description / Specs -->
-        <div class="tabs" role="tablist">
-          <button class="tab active" data-tab="features" role="tab" aria-selected="true">Features</button>
-          <button class="tab" data-tab="description" role="tab" aria-selected="false">Description</button>
-          <button class="tab" data-tab="specs" role="tab" aria-selected="false">Specs</button>
-        </div>
-        <div class="panel" id="panel-features" role="tabpanel">
-          <div class="features">
-            <div class="feature">• Hybrid Active Noise Cancellation (up to 40 dB)</div>
-            <div class="feature">• Bluetooth 5.3 + AAC/aptX Low Latency</div>
-            <div class="feature">• 30‑hour battery (USB‑C fast charge)</div>
-            <div class="feature">• Dual‑device seamless switching</div>
-            <div class="feature">• Beamforming mics with ENC</div>
-            <div class="feature">• Ultra‑soft memory foam cushions</div>
-          </div>
-        </div>
-        <div class="panel" id="panel-description" hidden role="tabpanel">
-          <p>Pro X brings immersive acoustics with a custom 40 mm driver array, tuned for a balanced signature that keeps vocals crisp and bass tight. Toggle ANC for deep focus or switch to Transparency to stay aware. Pair two devices and hop between laptop and phone without missing a beat.</p>
-        </div>
-        <div class="panel" id="panel-specs" hidden role="tabpanel">
-          <table class="specs">
-            <tr><th>Driver</th><td>40 mm neodymium</td></tr>
-            <tr><th>Connectivity</th><td>Bluetooth 5.3, USB‑C wired</td></tr>
-            <tr><th>Codecs</th><td>SBC, AAC, aptX LL</td></tr>
-            <tr><th>Battery</th><td>30 hrs (ANC on), 10‑min charge → 4 hrs</td></tr>
-            <tr><th>Weight</th><td>248 g</td></tr>
-          </table>
-        </div>
-      </section>
-    </div>
-
-    <!-- Reviews Section (static 3 reviews as requested) -->
-    <section class="card pad" style="margin-top:28px" aria-label="Customer reviews">
-      <h2 style="margin:0 0 8px">Customer Reviews</h2>
-      <div class="muted" style="margin-bottom:12px">What real buyers say</div>
-      <div class="reviews" id="reviews">
+    <!-- Reviews Section -->
+    <section class="reviews">
+      <h3>Customer Reviews</h3>
+      <div class="review-list">
         <div class="review">
-          <div class="row" style="justify-content:space-between">
-            <span class="name">Alice K.</span>
-            <span class="stars" aria-label="5 out of 5">★★★★★</span>
-          </div>
-          <p>Noise cancelling is stellar. I use them daily at the library and can’t hear a thing. Battery easily lasts a week for me.</p>
+          <h4>John D.</h4>
+          <div class="stars">★★★★★</div>
+          <p>Amazing quality and futuristic design. Feels like living in 2050 already!</p>
         </div>
         <div class="review">
-          <div class="row" style="justify-content:space-between">
-            <span class="name">Bob M.</span>
-            <span class="stars" aria-label="4 out of 5">★★★★☆</span>
-          </div>
-          <p>Great sound and build quality. Slight clamp at first but breaks in after a couple of days.</p>
+          <h4>Sophia L.</h4>
+          <div class="stars">★★★★☆</div>
+          <p>The AR display is crystal clear. Battery could be better, but still worth it.</p>
         </div>
         <div class="review">
-          <div class="row" style="justify-content:space-between">
-            <span class="name">Charlie D.</span>
-            <span class="stars" aria-label="5 out of 5">★★★★★</span>
-          </div>
-          <p>Instant pairing between my phone and laptop. Gaming preset is surprisingly good with low latency.</p>
+          <h4>Michael B.</h4>
+          <div class="stars">★★★★★</div>
+          <p>Blown away by how lightweight it feels. The AI assistant is a game changer.</p>
         </div>
       </div>
     </section>
-  </main>
+  </div>
 
-  <footer class="container">
-    <p>© <span id="year"></span> MintMart. Built as a demo single‑page product layout.</p>
+  <footer>
+    <p>&copy; 2025 Futuristic E-Commerce. All Rights Reserved.</p>
   </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Theme toggle (simple light/dark inversion for demo)
-    const themeBtn = document.getElementById('themeToggle');
-    let light=false;
-    themeBtn.addEventListener('click',()=>{
-      light=!light;
-      if(light){
-        document.documentElement.style.setProperty('--bg','#f5f7fb');
-        document.documentElement.style.setProperty('--paper','#ffffff');
-        document.documentElement.style.setProperty('--text','#0b0d10');
-        document.documentElement.style.setProperty('--muted','#5b6572');
-      } else {
-        document.documentElement.style.setProperty('--bg','#0b0d10');
-        document.documentElement.style.setProperty('--paper','#12161b');
-        document.documentElement.style.setProperty('--text','#e8edf2');
-        document.documentElement.style.setProperty('--muted','#9aa4b2');
-      }
-    });
-
-    // Gallery thumbs → hero swap
-    const hero = document.getElementById('heroImg');
-    const thumbs = document.getElementById('thumbs');
-    thumbs.addEventListener('click', (e)=>{
-      const t = e.target;
-      if(t.tagName === 'IMG'){
-        hero.src = t.src.replace('w=400','w=1200');
-        [...thumbs.children].forEach(img=>img.classList.remove('active'));
-        t.classList.add('active');
-      }
-    });
-
-    // Options chips (toggle active)
-    function setupChips(containerId){
-      const el = document.getElementById(containerId);
-      el.addEventListener('click', (e)=>{
-        if(e.target.classList.contains('chip')){
-          [...el.children].forEach(c=>c.classList.remove('active'));
-          e.target.classList.add('active');
-        }
-      })
-    }
-    setupChips('colorOptions');
-    setupChips('styleOptions');
-
-    // Quantity stepper
-    const qtyInput = document.getElementById('qty');
-    document.getElementById('incQty').onclick = ()=> qtyInput.value = Math.max(1, Number(qtyInput.value||1)+1);
-    document.getElementById('decQty').onclick = ()=> qtyInput.value = Math.max(1, Number(qtyInput.value||1)-1);
-
-    // Tabs
-    const tabs = document.querySelectorAll('.tab');
-    const panels = {
-      features: document.getElementById('panel-features'),
-      description: document.getElementById('panel-description'),
-      specs: document.getElementById('panel-specs')
-    };
-    tabs.forEach(t=>t.addEventListener('click',()=>{
-      tabs.forEach(b=>{b.classList.remove('active'); b.setAttribute('aria-selected','false')});
-      t.classList.add('active'); t.setAttribute('aria-selected','true');
-      Object.values(panels).forEach(p=>p.hidden = true);
-      const id = t.dataset.tab; panels[id].hidden = false;
-    }));
-
-    // Add to cart demo + toast
-    const toast = document.getElementById('toast');
-    document.getElementById('addToCart').addEventListener('click', ()=>{
-      const color = document.querySelector('#colorOptions .chip.active')?.dataset.value;
-      const style = document.querySelector('#styleOptions .chip.active')?.dataset.value;
-      const qty = qtyInput.value;
-      showToast(`Added ${qty} × Pro X (${color}, ${style}) to cart`);
-    });
-    function showToast(msg){
-      toast.textContent = msg;
-      toast.style.display='block';
-      toast.style.opacity='1';
-      toast.style.transform='translateY(0)';
-      setTimeout(()=>{ toast.style.opacity='0'; toast.style.transform='translateY(6px)'; }, 1800);
-      setTimeout(()=>{ toast.style.display='none'; }, 2300);
-    }
-  </script>
 </body>
 </html>
