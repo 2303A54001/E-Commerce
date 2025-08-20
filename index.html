@@ -1,161 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ModernShop</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NEON • Futuristic E-Commerce Showcase</title>
+  <meta name="description" content="NEON — Futuristic single page e-commerce demo with product grid, featured product, reviews, cart, and animations." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
+    /* =========================
+       NEON THEME - GLOBAL STYLES
+       ========================= */
+    :root{
+      --bg:#06070a;
+      --bg-soft:#0b0f14;
+      --card:#0f1418;
+      --glass: rgba(255,255,255,0.03);
+      --muted:#9aa4b2;
+      --text:#e9f0f2;
+      --accent:#22e4c4;
+      --accent-2:#7c5cff;
+      --danger:#ff6b6b;
+      --radius:16px;
+      --shadow:0 18px 60px rgba(2,6,23,.6);
+      --glass-border: rgba(255,255,255,0.05);
     }
-    header {
-      background-color: #1e1e2f;
-      color: white;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(800px 400px at 10% -5%, rgba(124,92,255,.06), transparent 25%),
+        radial-gradient(900px 500px at 110% 10%, rgba(34,228,196,.06), transparent 30%),
+        linear-gradient(180deg,var(--bg), #020305 60%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      -webkit-touch-callout:none;
+      -webkit-user-select:none;
+      user-select:none;
     }
-    nav a {
-      color: white;
-      margin-left: 1rem;
-      text-decoration: none;
-      font-weight: 500;
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:1200px; margin:0 auto; padding:22px}
+
+    /* =========================
+       HEADER / NAV
+       ========================= */
+    header{
+      position:sticky; top:0; z-index:60;
+      background:linear-gradient(180deg, rgba(8,12,16,.75), rgba(8,12,16,.55));
+      border-bottom:1px solid var(--glass-border);
+      backdrop-filter: blur(8px) saturate(120%);
     }
-    .hero {
-      background: linear-gradient(to right, #667eea, #764ba2);
-      color: white;
-      padding: 4rem 2rem;
-      text-align: center;
+    .nav{
+      display:flex; align-items:center; gap:14px; justify-content:space-between;
+      max-width:1200px; margin:0 auto; padding:12px 18px;
     }
-    .hero h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+    .brand{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.6px}
+    .logo{
+      width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 8px 22px rgba(34,228,196,.12);
     }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      padding: 2rem;
+    .logo svg{filter:drop-shadow(0 6px 18px rgba(0,0,0,.45))}
+    .search{
+      flex:1; max-width:560px; display:flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:12px; background:var(--card); border:1px solid var(--glass-border);
     }
-    .product {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      padding: 1rem;
-      text-align: center;
-      transition: transform 0.3s ease;
+    .search input{flex:1; background:transparent; border:0; outline:none; color:var(--text)}
+    .nav-actions{display:flex; gap:10px; align-items:center}
+    .btn{
+      padding:10px 14px; border-radius:12px; border:1px solid var(--glass-border);
+      background:transparent; color:var(--text); cursor:pointer; display:inline-flex; gap:8px; align-items:center;
     }
-    .product:hover {
-      transform: scale(1.03);
+    .btn.primary{background:linear-gradient(180deg,var(--accent), #18c3a6); color:#042926; font-weight:700; box-shadow:0 10px 24px rgba(34,228,196,.12)}
+    .pill{padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.02); border:1px solid var(--glass-border); font-size:12px}
+
+    /* =========================
+       HERO
+       ========================= */
+    .hero{display:grid; grid-template-columns:1.1fr 1fr; gap:22px; margin-top:24px; align-items:center}
+    @media (max-width:980px){ .hero{grid-template-columns:1fr; padding-bottom:6px} }
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border-radius:var(--radius); border:1px solid var(--glass-border); box-shadow:var(--shadow); overflow:hidden}
+    .hero-media{position:relative}
+    .hero-media img{width:100%; height:100%; object-fit:cover; aspect-ratio:16/10}
+    .hero-info{padding:20px}
+    .eyebrow{color:var(--accent); font-weight:700; font-size:12px; letter-spacing:.18em; text-transform:uppercase}
+    .hero-title{font-size:clamp(24px,4vw,40px); margin:12px 0 10px}
+    .muted{color:var(--muted)}
+    .price{font-size:clamp(20px,3vw,28px); font-weight:800; color:var(--accent)}
+    .strike{color:#7b8594; text-decoration:line-through; margin-left:10px; font-weight:600}
+    .kpis{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap}
+    .kpi{display:flex; gap:8px; align-items:center; padding:8px 10px; border-radius:12px; background:var(--card); border:1px solid var(--glass-border)}
+
+    /* =========================
+       PRODUCT GRID
+       ========================= */
+    .section{margin-top:28px}
+    h2.section-title{font-size:20px; margin:6px 0 12px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    @media (max-width:980px){ .grid{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:640px){ .grid{grid-template-columns:1fr;} }
+    .product-card{overflow:hidden}
+    .product-media{position:relative}
+    .product-media img{width:100%; aspect-ratio:4/3; object-fit:cover}
+    .tag{position:absolute; top:10px; left:10px; background:rgba(0,0,0,.45); padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid var(--glass-border)}
+    .card-body{padding:14px}
+    .product-title{font-weight:700; margin-bottom:6px}
+    .product-sub{font-size:12px; color:var(--muted)}
+    .product-row{display:flex; align-items:center; gap:10px; margin-top:8px}
+    .product-row .price{font-weight:800}
+    .product-row .add{margin-left:auto}
+
+    /* =========================
+       DETAILS / TABS / FEATURES
+       ========================= */
+    .details{display:grid; grid-template-columns:1fr 380px; gap:16px; margin-top:22px}
+    @media (max-width:980px){ .details{grid-template-columns:1fr;} }
+    .pad{padding:18px}
+    .chips{display:flex; gap:8px; flex-wrap:wrap}
+    .chip{padding:8px 12px; border-radius:999px; background:var(--card); border:1px solid var(--glass-border); cursor:pointer}
+    .chip.active{box-shadow:0 0 0 4px rgba(34,228,196,.12); border-color:var(--accent)}
+    .tabs{display:flex; gap:8px; margin-top:12px}
+    .tab{padding:10px 14px; border-radius:12px; background:var(--card); border:1px solid var(--glass-border); cursor:pointer}
+    .tab.active{border-color:var(--accent); box-shadow:0 0 0 6px rgba(34,228,196,.06)}
+    .panel{margin-top:12px}
+
+    /* =========================
+       REVIEWS
+       ========================= */
+    .review-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:12px}
+    @media (max-width:980px){ .review-grid{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:640px){ .review-grid{grid-template-columns:1fr;} }
+    .review{padding:14px; border-radius:12px; background:var(--card); border:1px solid var(--glass-border)}
+    .review .name{font-weight:700}
+    .stars{color:gold; font-size:14px}
+
+    /* =========================
+       CART DRAWER
+       ========================= */
+    .cart-drawer{
+      position:fixed; right:20px; top:80px; width:360px; max-width:92%;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border-radius:12px; border:1px solid var(--glass-border); box-shadow:var(--shadow); padding:12px; display:none; z-index:120;
     }
-    .product img {
-      width: 100%;
-      border-radius: 8px;
+    .cart-header{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:10px}
+    .cart-list{max-height:320px; overflow:auto; display:flex; flex-direction:column; gap:10px; padding-right:6px}
+
+    /* =========================
+       FOOTER
+       ========================= */
+    footer{margin-top:36px; padding:18px 0; color:var(--muted); text-align:center}
+
+    /* =========================
+       RESPONSIVE HELPERS
+       ========================= */
+    @media (max-width:420px){
+      .nav{padding:8px}
+      .hero-title{font-size:20px}
+      .price{font-size:18px}
     }
-    .product h3 {
-      margin: 0.5rem 0;
-    }
-    .product button {
-      background-color: #764ba2;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 0.5rem;
-    }
-    .reviews {
-      background: #fff;
-      padding: 2rem;
-    }
-    .review {
-      border-bottom: 1px solid #eee;
-      padding: 1rem 0;
-    }
-    .stars {
-      color: gold;
-      font-size: 1.2rem;
-    }
-    footer {
-      background-color: #1e1e2f;
-      color: white;
-      text-align: center;
-      padding: 1rem;
-    }
+
+    /* small animations */
+    .fade-in{animation:fadeIn .6s ease both}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none}}
   </style>
 </head>
 <body>
-
+  <!-- HEADER -->
   <header>
-    <h2>ModernShop</h2>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">Reviews</a>
+    <nav class="nav container" role="navigation" aria-label="Main">
+      <div class="brand" aria-label="NEON brand">
+        <span class="logo" aria-hidden="true">
+          <!-- small svg logo -->
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2l3.5 6.5L22 9l-5 4.9L18 22l-6-3.3L6 22l1-8.1L2 9l6.5-.5L12 2z" fill="white"/>
+          </svg>
+        </span>
+        <span>NEON</span>
+      </div>
+
+      <label class="search" aria-label="Search products">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="opacity:.85"><path d="M21 21l-4.3-4.3" stroke="#9aa4b2" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="#9aa4b2" stroke-width="2"/></svg>
+        <input type="search" placeholder="Search futuristic gear…" aria-label="Search" />
+      </label>
+
+      <div class="nav-actions" role="toolbar" aria-label="Actions">
+        <button class="btn" id="themeToggle" aria-pressed="false" title="Toggle theme">Theme</button>
+        <button class="btn" id="openCart" aria-controls="cart" aria-expanded="false">Cart (0)</button>
+        <button class="btn primary">Sign in</button>
+      </div>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Discover Your Style</h1>
-    <p>Trendy products curated just for you</p>
-  </section>
+  <!-- MAIN CONTENT -->
+  <main class="container" id="main">
+    <!-- HERO -->
+    <section class="hero fade-in" aria-label="Featured product">
+      <div class="card hero-media">
+        <div style="position:relative">
+          <span class="pill" style="position:absolute; left:16px; top:16px; z-index:10">New • 2025</span>
+          <img src="https://images.unsplash.com/photo-1518442253306-9e3f39c4861b?q=80&w=1600&auto=format&fit=crop" alt="Featured headphones on neon surface" />
+        </div>
+      </div>
 
-  <section class="products">
-    <div class="product">
-      <img src="https://via.placeholder.com/250x200" alt="Sneakers">
-      <h3>Stylish Sneakers</h3>
-      <p>₹2,999</p>
-      <button onclick="addToCart('Stylish Sneakers')">Add to Cart</button>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/250x200" alt="Smart Watch">
-      <h3>Smart Watch</h3>
-      <p>₹5,499</p>
-      <button onclick="addToCart('Smart Watch')">Add to Cart</button>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/250x200" alt="Earbuds">
-      <h3>Wireless Earbuds</h3>
-      <p>₹1,999</p>
-      <button onclick="addToCart('Wireless Earbuds')">Add to Cart</button>
-    </div>
-    <div class="product">
-      <img src="https://via.placeholder.com/250x200" alt="Backpack">
-      <h3>Leather Backpack</h3>
-      <p>₹3,499</p>
-      <button onclick="addToCart('Leather Backpack')">Add to Cart</button>
-    </div>
-  </section>
+      <div class="card hero-info pad">
+        <div class="eyebrow">Featured Drop</div>
+        <h1 class="hero-title">Pro X • Wireless ANC Headphones</h1>
+        <p class="muted">Studio-grade sound with hybrid ANC, ultra-low latency, and 30-hour battery in a feather-light frame. Multi-link for seamless switching between devices.</p>
 
-  <section class="reviews">
-    <h2>Customer Reviews</h2>
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p><strong>Ravi Kumar:</strong> The sneakers are super comfy and stylish. Highly recommended!</p>
-    </div>
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p><strong>Neha Sharma:</strong> Smart watch is sleek and works flawlessly. Love it!</p>
-    </div>
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p><strong>Amit Verma:</strong> Earbuds have great sound and battery life. Worth every rupee!</p>
-    </div>
-  </section>
+        <div style="display:flex; align-items:center; gap:12px; margin-top:14px">
+          <div>
+            <div class="price">$99.99 <span class="strike">$149.99</span></div>
+            <div class="muted" style="font-size:13px; margin-top:6px">In stock • Ships worldwide</div>
+          </div>
 
+          <div style="margin-left:auto">
+            <div class="kpis">
+              <div class="kpi">🚚 Free express</div>
+              <div class="kpi">🛡️ 2-yr warranty</div>
+              <div class="kpi">↩️ 30-day returns</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:16px; align-items:center; flex-wrap:wrap">
+          <div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px">Color</div>
+            <div class="chips" id="colorOptions" role="listbox" aria-label="Choose color">
+              <button class="chip active" data-value="Black">Black</button>
+              <button class="chip" data-value="White">White</button>
+              <button class="chip" data-value="Navy">Navy</button>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:12px; color:var(--muted); margin-bottom:8px">Mode</div>
+            <div class="chips" id="modeOptions">
+              <button class="chip active" data-value="Standard">Standard</button>
+              <button class="chip" data-value="ANC">ANC</button>
+              <button class="chip" data-value="Gaming">Gaming</button>
+            </div>
+          </div>
+
+          <div style="margin-left:auto; display:flex; gap:8px; align-items:center">
+            <label class="pill" style="display:inline-flex; align-items:center; gap:8px;">
+              Qty
+              <input id="qty" type="number" min="1" value="1" style="width:48px; margin-left:8px; padding:6px; border-radius:8px; border:1px solid var(--glass-border); background:transparent; color:var(--text)" />
+            </label>
+            <button class="btn primary" id="addToCartMain">Add to cart</button>
+            <button class="btn" id="saveBtn">Wishlist</button>
+          </div>
+        </div>
+
+        <div style="margin-top:18px" class="muted">
+          <strong>Why Pro X?</strong> Balanced drivers tuned for clarity, tight bass, and spacious imaging. Perfect for work, travel, and gaming.
+        </div>
+      </div>
+    </section>
+
+    <!-- POPULAR PRODUCTS GRID -->
+    <section class="section" aria-label="Popular products">
+      <h2 class="section-title">Popular Right Now</h2>
+      <div class="grid">
+        <!-- Product 1 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">-30%</span>
+            <img src="https://images.unsplash.com/photo-1546435770-a3e426bf472b?q=80&w=1200&auto=format&fit=crop" alt="Smartwatch product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">AeroWatch S9</div>
+            <div class="product-sub">Neon Black • 44mm</div>
+            <div class="product-row">
+              <div class="price">$139</div>
+              <div class="small muted">★★★★☆ • 871</div>
+              <div class="add"><button class="btn" data-name="AeroWatch S9" data-price="139">Add</button></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">New</span>
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop" alt="Mechanical keyboard product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">Nebula Keys 87</div>
+            <div class="product-sub">Hot-swap • RGB</div>
+            <div class="product-row">
+              <div class="price">$119</div>
+              <div class="small muted">★★★★★ • 2,031</div>
+              <div class="add"><button class="btn" data-name="Nebula Keys 87" data-price="119">Add</button></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">Bestseller</span>
+            <img src="https://images.unsplash.com/photo-1585386959984-a4155223168f?q=80&w=1200&auto=format&fit=crop" alt="VR headset product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">Holo VR Lite</div>
+            <div class="product-sub">4K per eye • 120Hz</div>
+            <div class="product-row">
+              <div class="price">$349</div>
+              <div class="small muted">★★★★☆ • 4,512</div>
+              <div class="add"><button class="btn" data-name="Holo VR Lite" data-price="349">Add</button></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">Limited</span>
+            <img src="https://images.unsplash.com/photo-1582705128050-3a2fd9720b49?q=80&w=1200&auto=format&fit=crop" alt="Drone product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">SkyRanger Mini</div>
+            <div class="product-sub">Portable drone • 4K</div>
+            <div class="product-row">
+              <div class="price">$229</div>
+              <div class="small muted">★★★★☆ • 1,098</div>
+              <div class="add"><button class="btn" data-name="SkyRanger Mini" data-price="229">Add</button></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">Deal</span>
+            <img src="https://images.unsplash.com/photo-1518441902110-657b97c2f2ff?q=80&w=1200&auto=format&fit=crop" alt="Earbuds product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">AirPods Nova</div>
+            <div class="product-sub">TWS • ANC</div>
+            <div class="product-row">
+              <div class="price">$79</div>
+              <div class="small muted">★★★★☆ • 3,210</div>
+              <div class="add"><button class="btn" data-name="AirPods Nova" data-price="79">Add</button></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="product-card card fade-in">
+          <div class="product-media">
+            <span class="tag">Hot</span>
+            <img src="https://images.unsplash.com/photo-1519204925119-1d6a95f1df36?q=80&w=1200&auto=format&fit=crop" alt="Camera product image">
+          </div>
+          <div class="card-body">
+            <div class="product-title">Nebula Cam X</div>
+            <div class="product-sub">Mirrorless • 50MP</div>
+            <div class="product-row">
+              <div class="price">$899</div>
+              <div class="small muted">★★★★★ • 612</div>
+              <div class="add"><button class="btn" data-name="Nebula Cam X" data-price="899">Add</button></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- DETAILS & REVIEWS -->
+    <section class="details">
+      <div class="card pad fade-in">
+        <h3 style="margin:0 0 8px">Why you’ll love Pro X</h3>
+        <p class="muted" style="margin-bottom:12px">Pro X pairs precise drivers with hybrid active noise cancellation and beamforming microphones. A modern companion for focus, calls, and immersive audio.</p>
+
+        <div class="features" style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px">
+          <div class="chip">Hybrid ANC</div>
+          <div class="chip">Bluetooth 5.3</div>
+          <div class="chip">30-hour battery</div>
+          <div class="chip">Dual device pairing</div>
+        </div>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="desc" aria-selected="true">Description</button>
+          <button class="tab" data-tab="specs" aria-selected="false">Specs</button>
+          <button class="tab" data-tab="shipping" aria-selected="false">Shipping</button>
+        </div>
+
+        <div class="panel" id="desc">
+          <p style="margin-top:10px">Pro X delivers studio clarity with a custom 40mm driver and tuned crossover. Toggle ANC to remove ambient noise or use Transparency to remain aware. Perfect for remote work and long journeys.</p>
+        </div>
+        <div class="panel" id="specs" hidden>
+          <ul style="margin-top:10px; color:var(--muted)">
+            <li>Driver: 40 mm neodymium</li>
+            <li>Connectivity: Bluetooth 5.3, USB-C wired</li>
+            <li>Codecs: SBC, AAC, aptX LL</li>
+            <li>Battery: 30 h (ANC on); 10 min charge → 4 h</li>
+            <li>Weight: 248 g</li>
+          </ul>
+        </div>
+        <div class="panel" id="shipping" hidden>
+          <ul style="margin-top:10px; color:var(--muted)">
+            <li>Ships in 24 hrs (business days)</li>
+            <li>Express: 1–3 days; Standard: 3–6 days</li>
+            <li>30-day returns • Free exchanges within 14 days</li>
+          </ul>
+        </div>
+      </div>
+
+      <aside class="card pad fade-in">
+        <h3 style="margin:0 0 8px">Customer Reviews</h3>
+        <div class="muted" style="margin-bottom:12px">What real buyers say</div>
+        <div class="review-grid">
+          <div class="review">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <div class="name">Alice K.</div>
+              <div class="stars" aria-label="5 out of 5">★★★★★</div>
+            </div>
+            <p style="margin-top:8px" class="muted">Noise cancelling is stellar. I use them daily at the library and can’t hear a thing. Battery easily lasts a week for my usage.</p>
+          </div>
+
+          <div class="review">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <div class="name">Bob M.</div>
+              <div class="stars" aria-label="4 out of 5">★★★★☆</div>
+            </div>
+            <p style="margin-top:8px" class="muted">Great sound and build quality. Slight clamp at first but breaks in after a couple days. Gaming mode is solid.</p>
+          </div>
+
+          <div class="review">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+              <div class="name">Charlie D.</div>
+              <div class="stars" aria-label="5 out of 5">★★★★★</div>
+            </div>
+            <p style="margin-top:8px" class="muted">Instant pairing between phone and laptop. Low latency in wireless mode — nice for competitive gaming.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:14px">
+          <button class="btn primary" id="writeReview">Write a review</button>
+        </div>
+      </aside>
+    </section>
+
+    <!-- EXTRA: Newsletter / CTA -->
+    <section style="margin-top:28px" class="card pad fade-in">
+      <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap">
+        <div style="flex:1; min-width:260px">
+          <h3 style="margin:0 0 6px">Stay in the loop</h3>
+          <div class="muted">Sign up for new drops, exclusive discounts, and early access to limited editions.</div>
+        </div>
+        <form id="newsletter" style="display:flex; gap:8px; align-items:center; margin-left:auto; min-width:260px">
+          <input type="email" required placeholder="Your email" style="flex:1; padding:10px 12px; border-radius:10px; border:1px solid var(--glass-border); background:transparent; color:var(--text)" />
+          <button class="btn primary">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- CART DRAWER -->
+  <div id="cartDrawer" class="cart-drawer" role="dialog" aria-modal="false" aria-label="Shopping cart">
+    <div class="cart-header">
+      <strong>Your cart</strong>
+      <button class="btn" id="closeCart">Close</button>
+    </div>
+    <div class="cart-list" id="cartList" aria-live="polite">
+      <div class="muted">Cart is empty — add something you love ✨</div>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:8px; align-items:center; justify-content:space-between">
+      <div class="muted">Total:</div>
+      <div style="font-weight:800; font-size:18px" id="cartTotal">$0.00</div>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:8px">
+      <button class="btn primary" id="checkout">Checkout</button>
+      <button class="btn" id="clearCart">Clear</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
   <footer>
-    &copy; 2025 ModernShop. All rights reserved.
+    <div class="container">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:center; flex-wrap:wrap">
+        <div>
+          <div style="font-weight:700">NEON</div>
+          <div class="muted" style="font-size:13px">Futuristic Demo Store • Built for showcase</div>
+        </div>
+        <div class="muted" style="font-size:13px">© <span id="year"></span> NEON • All rights reserved</div>
+      </div>
+    </div>
   </footer>
 
+  <!-- SCRIPTS -->
   <script>
-    function addToCart(productName) {
-      alert(productName + " added to cart!");
-    }
-  </script>
+    // === Small utilities & data ===
+    document.getElementById('year').textContent = new Date().getFullYear();
 
+    // Simple cart structure
+    const cart = { items: [], total: 0 };
+
+    function formatCurrency(v){ return '$' + Number(v).toFixed(2); }
+
+    // Update cart UI
+    function renderCart(){
+      const list = document.getElementById('cartList');
+      list.innerHTML = '';
+      if(cart.items.length === 0){
+        const el = document.createElement('div');
+        el.className = 'muted';
+        el.textContent = 'Cart is empty — add something you love ✨';
+        list.appendChild(el);
+      } else {
+        cart.items.forEach((it, idx) => {
+          const row = document.createElement('div');
+          row.style.display = 'flex';
+          row.style.gap = '8px';
+          row.style.alignItems = 'center';
+          row.style.justifyContent = 'space-between';
+          row.style.padding = '8px';
+          row.style.borderRadius = '8px';
+          row.style.background = 'rgba(255,255,255,.01)';
+          row.innerHTML = `
+            <div style="flex:1">
+              <div style="font-weight:600">${it.name}</div>
+              <div class="muted" style="font-size:12px">${it.qty} × ${formatCurrency(it.price)}</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center">
+              <div style="font-weight:700">${formatCurrency(it.price * it.qty)}</div>
+              <button class="btn" data-idx="${idx}" aria-label="Remove item">Remove</button>
+            </div>
+          `;
+          list.appendChild(row);
+        });
+      }
+      document.getElementById('cartTotal').textContent = formatCurrency(cart.total);
+      document.querySelector('#openCart').textContent = `Cart (${cart.items.reduce((a,b)=>a+b.qty,0)})`;
+    }
+
+    // Add item to cart
+    function addToCart(name, price, qty=1){
+      // if exists, increase qty
+      const existing = cart.items.find(i => i.name === name);
+      if(existing){
+        existing.qty += qty;
+      } else {
+        cart.items.push({ name, price: Number(price), qty });
+      }
+      cart.total = cart.items.reduce((s,i)=>s + i.price * i.qty, 0);
+      renderCart();
+      showToast(`${qty} × ${name} added to cart`);
+    }
+
+    // Remove by index
+    function removeFromCart(idx){
+      const it = cart.items[idx];
+      if(!it) return;
+      cart.items.splice(idx, 1);
+      cart.total = cart.items.reduce((s,i)=>s + i.price * i.qty, 0);
+      renderCart();
+    }
+
+    // Clear cart
+    function clearCart(){
+      cart.items = []; cart.total = 0; renderCart();
+    }
+
+    // === Event wiring ===
+    document.addEventListener('click', (e) => {
+      // Add buttons in grid
+      if(e.target.matches('.product-card .add .btn') || e.target.matches('.product-card .add .btn') ){
+        const btn = e.target;
+        const name = btn.getAttribute('data-name') || btn.closest('.product-card').querySelector('.product-title')?.textContent || 'Item';
+        const price = Number(btn.getAttribute('data-price') || 0);
+        addToCart(name, price, 1);
+      }
+
+      // Add buttons inside product card variants
+      if(e.target.id === 'addToCartMain' || e.target.matches('#addToCartMain')){
+        const qty = Number(document.getElementById('qty').value) || 1;
+        const color = document.querySelector('#colorOptions .chip.active')?.dataset.value || 'Black';
+        const mode = document.querySelector('#modeOptions .chip.active')?.dataset.value || 'Standard';
+        addToCart(`Pro X (${color}, ${mode})`, 99.99, qty);
+      }
+
+      // Open Cart
+      if(e.target.id === 'openCart'){
+        const drawer = document.getElementById('cartDrawer');
+        drawer.style.display = 'block';
+        document.getElementById('openCart').setAttribute('aria-expanded','true');
+        renderCart();
+      }
+      // Close Cart
+      if(e.target.id === 'closeCart'){
+        document.getElementById('cartDrawer').style.display = 'none';
+        document.getElementById('openCart').setAttribute('aria-expanded','false');
+      }
+
+      // Remove item
+      if(e.target.matches('#cartList .btn[data-idx]')){
+        const idx = Number(e.target.getAttribute('data-idx'));
+        removeFromCart(idx);
+      }
+
+      // Clear cart
+      if(e.target.id === 'clearCart'){
+        clearCart();
+      }
+
+      // Checkout (demo)
+      if(e.target.id === 'checkout'){
+        if(cart.items.length === 0){
+          showToast('Your cart is empty');
+          return;
+        }
+        showToast('Checkout demo — no payment integrated');
+      }
+
+      // Chip selection
+      if(e.target.classList.contains('chip')){
+        const parent = e.target.parentElement;
+        [...parent.children].forEach(c => c.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+
+      // Tabs
+      if(e.target.classList.contains('tab')){
+        const tabId = e.target.dataset.tab;
+        document.querySelectorAll('.tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+        e.target.classList.add('active'); e.target.setAttribute('aria-selected','true');
+        ['desc','specs','shipping'].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) el.hidden = (id !== tabId);
+        });
+      }
+
+      // Remove item button within cart list (delegation)
+      if(e.target.matches('#cartList button[data-idx]')){
+        const idx = Number(e.target.getAttribute('data-idx'));
+        removeFromCart(idx);
+      }
+
+      // Add from product card (delegation alternative)
+      if(e.target.matches('.card-body .add .btn')){
+        const name = e.target.getAttribute('data-name');
+        const price = Number(e.target.getAttribute('data-price')) || 0;
+        addToCart(name, price, 1);
+      }
+    });
+
+    // Remove item remove buttons created by renderCart
+    document.getElementById('cartList').addEventListener('click', (e) => {
+      if(e.target.matches('button[data-idx]')){
+        removeFromCart(Number(e.target.getAttribute('data-idx')));
+      }
+    });
+
+    // Theme toggle (simple)
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const root = document.documentElement;
+      const light = root.dataset.theme === 'light';
+      if(light){
+        root.style.setProperty('--bg','#06070a');
+        root.style.setProperty('--card','#0f1418');
+        root.style.setProperty('--text','#e9f0f2');
+        root.dataset.theme = 'dark';
+      } else {
+        root.style.setProperty('--bg','#f6f7fb');
+        root.style.setProperty('--card','#ffffff');
+        root.style.setProperty('--text','#061226');
+        root.style.setProperty('--muted','#6b7280');
+        root.dataset.theme = 'light';
+      }
+    });
+
+    // Write review (simple prompt demo)
+    document.getElementById('writeReview').addEventListener('click', () => {
+      const name = prompt('Your name') || 'Anonymous';
+      const rating = prompt('Rating 1-5','5') || '5';
+      const comment = prompt('Your review') || '';
+      if(comment.trim().length === 0){ showToast('Review cancelled'); return; }
+      // Create review element
+      const container = document.querySelector('.review-grid');
+      const div = document.createElement('div');
+      div.className = 'review';
+      div.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center">
+          <div class="name">${escapeHtml(name)}</div>
+          <div class="stars">${'★'.repeat(Math.min(5, Math.max(0, Number(rating))))}${'☆'.repeat(Math.max(0, 5 - Number(rating)))}</div>
+        </div>
+        <p style="margin-top:8px" class="muted">${escapeHtml(comment)}</p>
+      `;
+      container.prepend(div);
+      showToast('Thanks for your review!');
+    });
+
+    // Newsletter (simple)
+    document.getElementById('newsletter').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const mail = e.target.querySelector('input[type="email"]').value;
+      if(!mail.includes('@')){ showToast('Enter a valid email'); return; }
+      showToast('Subscribed — check your inbox!');
+      e.target.reset();
+    });
+
+    // Small helper: Toast
+    const toastEl = (() => {
+      const t = document.createElement('div');
+      t.style.position = 'fixed';
+      t.style.right = '16px';
+      t.style.bottom = '16px';
+      t.style.padding = '12px 14px';
+      t.style.borderRadius = '10px';
+      t.style.background = 'rgba(2,6,23,.9)';
+      t.style.border = '1px solid rgba(255,255,255,.04)';
+      t.style.boxShadow = '0 10px 30px rgba(0,0,0,.6)';
+      t.style.color = 'var(--text)';
+      t.style.zIndex = 9999;
+      t.style.display = 'none';
+      document.body.appendChild(t);
+      return t;
+    })();
+
+    let toastTimer = null;
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.style.display = 'block';
+      toastEl.style.opacity = '1';
+      if(toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> { toastEl.style.opacity='0'; toastEl.style.display='none'; }, 2200);
+    }
+
+    // Escape HTML to prevent script injection via prompts
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+    }
+
+    // initial render
+    renderCart();
+
+    // Accessibility: close cart with ESC
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        document.getElementById('cartDrawer').style.display = 'none';
+        document.getElementById('openCart').setAttribute('aria-expanded','false');
+      }
+    });
+  </script>
 </body>
 </html>
